@@ -84,6 +84,53 @@
     </script>
     
     <style>
+        /* Global transitions for smooth dark mode switching */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        /* Smooth theme toggle animation */
+        .theme-toggle {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+        
+        /* Smooth icon transitions */
+        .theme-toggle i {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Enhanced transitions for specific elements */
+        .nav-link, .nav-link-mobile, .social-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .btn-primary, .btn-secondary {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Smooth background transitions */
+        .bg-white, .bg-gray-50, .bg-gray-100, .bg-gray-200, .bg-gray-800, .bg-gray-900 {
+            transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Smooth text color transitions */
+        .text-gray-900, .text-gray-600, .text-gray-400, .text-gray-100 {
+            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Smooth border transitions */
+        .border-gray-200, .border-gray-800 {
+            transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -145,7 +192,7 @@
                     </div>
                     
                     <!-- Theme Toggle -->
-                    <button @click="darkMode = !darkMode" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <button @click="darkMode = !darkMode" class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
                         <i class="ri-sun-line" x-show="!darkMode"></i>
                         <i class="ri-moon-line" x-show="darkMode"></i>
                     </button>
