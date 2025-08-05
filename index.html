@@ -1,416 +1,1132 @@
 <!DOCTYPE html>
-   <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-      <!--=============== FAVICON ===============-->
-      <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
-
-      <!--=============== REMIXICONS ===============-->
-      <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
-
-      <!--=============== CSS ===============-->
-      <link rel="stylesheet" href="assets/css/styles.css">
-
-      <title>Responsive portfolio website - Matthias</title>
-   </head>
-   <body>
-      <!--==================== HEADER ====================-->
-      <header class="header" id="header">
-         <nav class="nav container">
-            <a href="#" class="nav__logo">
-               Ikehi <span>Matthias</span>
-            </a>
-
-            <div class="nav__menu" id="nav-menu">
-               <ul class="nav__list">
-                  <li class="nav__item">
-                     <a href="#home" class="nav__link active-link">Home</a>
-                  </li>
-
-                  <li class="nav__item">
-                     <a href="#about" class="nav__link">About</a>
-                  </li>
-
-                  <li class="nav__item">
-                     <a href="#services" class="nav__link">Services</a>
-                  </li>
-
-                  <li class="nav__item">
-                     <a href="#projects" class="nav__link">Projects</a>
-                  </li>
-
-                  <li class="nav__item">
-                     <a href="#contact" class="nav__link">Contact</a>
-                  </li>
-               </ul>
-
-              <!-- Close button  -->
-              <div class="nav__close" id="nav-close">
-                 <i class="ri-close-line"></i>
-              </div>
+<html lang="en" x-data="{ 
+    darkMode: true, 
+    mobileMenu: false, 
+    activeFilter: 'all',
+    currentProject: null,
+    showProjectModal: false,
+    typingText: '',
+    typingIndex: 0,
+    isTyping: true
+}" :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthias Ikehi - Full Stack Developer | Python & Django Expert</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Matthias Ikehi - Experienced Full Stack Developer specializing in Python, Django, and modern web development. View portfolio, projects, and get in touch.">
+    <meta name="keywords" content="Matthias Ikehi, Full Stack Developer, Python Developer, Django Developer, Web Development, Nigeria">
+    <meta name="author" content="Matthias Ikehi">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Matthias Ikehi - Full Stack Developer">
+    <meta property="og:description" content="Experienced Full Stack Developer specializing in Python, Django, and modern web development.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com">
+    <meta property="og:image" content="assets/img/ll.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Matthias Ikehi - Full Stack Developer">
+    <meta name="twitter:description" content="Experienced Full Stack Developer specializing in Python, Django, and modern web development.">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'display': ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'typing': 'typing 3.5s steps(40, end), blink-caret .75s step-end infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #3b82f6; }
+        }
+        .typing-animation {
+            overflow: hidden;
+            border-right: .15em solid #3b82f6;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+    
+    <!-- Header/Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#home" class="text-2xl font-display font-bold text-primary-600 dark:text-primary-400">
+                    M<span class="text-gray-900 dark:text-gray-100">.</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#testimonials" class="nav-link">Testimonials</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                
+                <!-- Right side - Social & Theme Toggle -->
+                <div class="flex items-center space-x-4">
+                    <!-- Social Links -->
+                    <div class="hidden sm:flex items-center space-x-3">
+                        <a href="https://github.com/ikehi" target="_blank" class="social-link">
+                            <i class="ri-github-fill"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/matthias-ikehi-3249b8261/" target="_blank" class="social-link">
+                            <i class="ri-linkedin-box-fill"></i>
+                        </a>
+                        <a href="https://www.instagram.com/ikehi_ma/" target="_blank" class="social-link">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Theme Toggle -->
+                    <button @click="darkMode = !darkMode" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="ri-sun-line" x-show="!darkMode"></i>
+                        <i class="ri-moon-line" x-show="darkMode"></i>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="ri-menu-line" x-show="!mobileMenu"></i>
+                        <i class="ri-close-line" x-show="mobileMenu"></i>
+                    </button>
+                </div>
             </div>
-
-            <!-- Toggle button -->
-            <div class="nav__toggle" id="nav-toggle">
-               <i class="ri-menu-line"></i>
+            
+            <!-- Mobile Menu -->
+            <div x-show="mobileMenu" x-transition class="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-800">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="#home" @click="mobileMenu = false" class="nav-link-mobile">Home</a>
+                    <a href="#about" @click="mobileMenu = false" class="nav-link-mobile">About</a>
+                    <a href="#skills" @click="mobileMenu = false" class="nav-link-mobile">Skills</a>
+                    <a href="#projects" @click="mobileMenu = false" class="nav-link-mobile">Projects</a>
+                    <a href="#testimonials" @click="mobileMenu = false" class="nav-link-mobile">Testimonials</a>
+                    <a href="#contact" @click="mobileMenu = false" class="nav-link-mobile">Contact</a>
+                </div>
             </div>
-         </nav>
-      </header>
+        </nav>
+    </header>
 
-      <!--==================== MAIN ====================-->
-      <main class="main">
-         <!--==================== HOME ====================-->
-         <section class="home section" id="home">
-            <div class="home__container container grid">
-               <div class="home__content">
-                  <div class="home__data">
-                     <h3 class="home__subtitle">
-                        Hello, <span>I’m</span>
-                     </h3>
-                       
-                     <h1 class="home__title">Ikehi Matthias</h1>
-
-                     <h3 class="home__education">Front-end developer and Python developer</h3>
-
-                     <p class="home__description">
-                        With knowledge in web development and 
-                        design with python, I offer the best projects resulting 
-                        in quality work.   
-                     </p>
-
-                     <a href="#contact" class="button">Let's Talk</a>
-                  </div>
-
-                  <div class="home__social">
-                     <a href="https://github.com/ikehi" target ="_blank" class="home__social-link">
-                        <i class="ri-github-fill"></i>
-                     </a> 
-
-                     <a href="https://www.instagram.com/ikehi_ma/" target ="_blank" class="home__social-link">
-                        <i class="ri-instagram-line"></i>
-                     </a>
-
-                     <a href="https://www.linkedin.com/in/matthias-ikehi-3249b8261/" target ="_blank" class="home__social-link">
-                        <i class="ri-linkedin-box-fill"></i>
-                     </a> 
-                  </div>
-               </div>
-
-               <div class="home__image">
-                  <svg class="home__blob" viewBox="0 0 550 591" xmlns="http://www.w3.org/2000/svg">
-                     <mask id="maskBlob" mask-type="alpha">
-                        <path d="M263 47.1782C270.426 42.891 279.574 42.891 287 47.1782L501.157 
-                        170.822C508.583 175.109 513.157 183.032 513.157 191.606V438.894C513.157 
-                        447.468 508.583 455.391 501.157 459.678L287 583.322C279.574 587.609 270.426 
-                        587.609 263 583.322L48.843 459.678C41.4174 455.391 36.843 447.468 36.843 
-                        438.894V191.606C36.843 183.032 41.4174 175.109 48.843 170.822L263 47.1782Z"/>
-                     </mask>
-                     <g mask="url(#maskBlob)">
-                        <path d="M263 47.1782C270.426 42.891 279.574 42.891 287 47.1782L501.157
-                        170.822C508.583 175.109 513.157 183.032 513.157 191.606V438.894C513.157 
-                        447.468 508.583 455.391 501.157 459.678L287 583.322C279.574 587.609 270.426 
-                        587.609 263 583.322L48.843 459.678C41.4174 455.391 36.843 447.468 36.843 
-                        438.894V191.606C36.843 183.032 41.4174 175.109 48.843 170.822L263 47.1782Z"/>
-                  
-                        <rect x="37" width="476" height="630" fill="url(#pattern0)"/>
-                     </g>
-                  
-                     <rect x="37" width="476" height="300" fill="url(#pattern1)"/>
-                  
-                     <defs>
-                        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
-                           <use href="#imageBlob" transform="matrix(0.00143057 0 0 0.00108108 0.0404062 0)"/>
-                        </pattern>
-                  
-                        <pattern id="pattern1" patternContentUnits="objectBoundingBox" width="1" height="1">
-                           <use href="#imageBlob" transform="matrix(0.00143057 0 0 0.00226984 0.0404062 0)"/>
-                        </pattern>
-                  
-                        <!-- Insert your profile (recommended size: 640 x 940) -->
-                        <image class="home__img" id="imageBlob" width="640" height="940" href="assets/img/ll.png"/>
-                     </defs>
-                  </svg>
-               </div>
+    <!-- Hero Section with Typing Animation -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Content -->
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <p class="text-lg text-primary-600 dark:text-primary-400 font-medium">
+                            Hello, I'm
+                        </p>
+                        <h1 class="text-5xl lg:text-7xl font-display font-bold leading-tight">
+                            Matthias Ikehi
+                        </h1>
+                        <h2 class="text-2xl lg:text-3xl text-gray-600 dark:text-gray-400 font-medium">
+                            <span x-text="typingText"></span><span class="typing-cursor">|</span>
+                        </h2>
+                    </div>
+                    
+                    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-lg">
+                        Passionate developer crafting exceptional web experiences with modern technologies. 
+                        Specializing in Python, Django, and frontend development.
+                    </p>
+                    
+                    <!-- Currently Working On -->
+                    <div class="bg-gradient-to-r from-primary-50 to-blue-50 dark:from-primary-900/20 dark:to-blue-900/20 p-4 rounded-xl border border-primary-200 dark:border-primary-800">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-sm font-medium text-primary-700 dark:text-primary-300">Currently working on:</span>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Building a modern e-commerce platform with Django and React</p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contact" class="btn-primary">
+                            Let's Work Together
+                        </a>
+                        <a href="Ikehi Matthias Resume.pdf" target="_blank" class="btn-secondary">
+                            <i class="ri-download-line mr-2"></i>Download Resume
+                        </a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 pt-8">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400" x-data="{ count: 0 }" x-init="setInterval(() => { if(count < 3) count++ }, 1000)">
+                                <span x-text="count">0</span>+
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Years Experience</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400" x-data="{ count: 0 }" x-init="setInterval(() => { if(count < 15) count++ }, 100)">
+                                <span x-text="count">0</span>+
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Projects Completed</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400" x-data="{ count: 0 }" x-init="setInterval(() => { if(count < 100) count++ }, 20)">
+                                <span x-text="count">0</span>%
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Client Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Image -->
+                <div class="relative">
+                    <div class="relative z-10">
+                        <img src="assets/img/ll.png" alt="Matthias Ikehi" class="w-full max-w-md mx-auto rounded-2xl shadow-2xl">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary-400 to-primary-600 rounded-2xl transform rotate-6 scale-105 opacity-20"></div>
+                </div>
             </div>
-         </section>
+        </div>
+    </section>
 
-         <!--==================== ABOUT ====================-->
-         <section class="about section" id="about">
-            <div class="about__container container grid">
-               <div class="about__data">
-                  <h3 class="section__subtitle">
-                     My <span>Intro</span>      
-                  </h3>
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold mb-4">About Me</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Experienced developer passionate about creating innovative solutions
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                        As an experienced Python developer, I have developed web applications and 
+                        scripts that streamline processes and improve the user experience. From
+                        frontend to backend technologies, I can develop highly functional and 
+                        visually appealing websites.
+                    </p>
+                    
+                    <!-- Timeline -->
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Career Journey</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-3 h-3 bg-primary-600 rounded-full mt-2"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100">2024 - Feb 2025</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">Softcity Group - Software Operations Specialist</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-3 h-3 bg-primary-600 rounded-full mt-2"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100">May 2023 - Jul 2023</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">Bincom Dev Center - Python Developer Trainee</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-3 h-3 bg-primary-600 rounded-full mt-2"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900 dark:text-gray-100">Jan 2023 - May 2023</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">Lendsqr - Product Management Intern</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg">
+                            <i class="ri-code-s-slash-line text-3xl text-primary-600 dark:text-primary-400 mb-4"></i>
+                            <h3 class="font-semibold mb-2">Web Development</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Full-stack development with modern frameworks</p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg">
+                            <i class="ri-palette-line text-3xl text-primary-600 dark:text-primary-400 mb-4"></i>
+                            <h3 class="font-semibold mb-2">UI/UX Design</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Creating beautiful and intuitive interfaces</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <img src="assets/img/ll.png" alt="About Matthias" class="w-full rounded-2xl shadow-xl">
+                </div>
+            </div>
+        </div>
+    </section>
 
-                  <h2 class="section__title">
-                     About Me
-                  </h2>
+    <!-- Skills Section -->
+    <section id="skills" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold mb-4">Skills & Technologies</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    A comprehensive list of skills and competencies that I leverage to create excellent project outcomes
+                </p>
+            </div>
+            
+            <!-- Tech Stack Visual -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-semibold text-center mb-8">Tech Stack</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <div class="tech-item">
+                        <i class="ri-python-line text-4xl text-blue-600"></i>
+                        <span class="text-sm font-medium">Python</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="ri-database-2-line text-4xl text-green-600"></i>
+                        <span class="text-sm font-medium">Django</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="ri-html5-line text-4xl text-orange-600"></i>
+                        <span class="text-sm font-medium">HTML5</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="ri-css3-line text-4xl text-blue-500"></i>
+                        <span class="text-sm font-medium">CSS3</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="ri-javascript-line text-4xl text-yellow-500"></i>
+                        <span class="text-sm font-medium">JavaScript</span>
+                    </div>
+                    <div class="tech-item">
+                        <i class="ri-git-branch-line text-4xl text-red-600"></i>
+                        <span class="text-sm font-medium">Git</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Frontend -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="text-center mb-6">
+                        <i class="ri-layout-3-line text-4xl text-primary-600 dark:text-primary-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold">Frontend</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="skill-item">
+                            <span>HTML5</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>CSS3</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>JavaScript</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Tailwind CSS</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Backend -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="text-center mb-6">
+                        <i class="ri-server-line text-4xl text-primary-600 dark:text-primary-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold">Backend</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="skill-item">
+                            <span>Python</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Django</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Flask</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>SQL</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tools -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="text-center mb-6">
+                        <i class="ri-tools-line text-4xl text-primary-600 dark:text-primary-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold">Tools</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="skill-item">
+                            <span>Git & GitHub</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>VS Code</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Figma</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Docker</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                  <p class="about__description">
-                     As an experienced Python developer, I 
-                     have developed web applications and 
-                     scripts that streamline processes and 
-                     improve the user experience. From
-                     frontend to backend te chnologies, 
-                     I can develop highly functional and 
-                     visually appealing websites
-                  </p>
-                  <a href="#contact" class="button">Contact Me</a>
-               </div>
+    <!-- Projects Section with Filtering -->
+    <section id="projects" class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold mb-4">Featured Projects</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Showcasing my recent work and technical expertise
+                </p>
+            </div>
+            
+            <!-- Project Filters -->
+            <div class="flex justify-center mb-12">
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button @click="activeFilter = 'all'" 
+                            :class="activeFilter === 'all' ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                            class="px-6 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105">
+                        All Projects
+                    </button>
+                    <button @click="activeFilter = 'python'" 
+                            :class="activeFilter === 'python' ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                            class="px-6 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105">
+                        Python
+                    </button>
+                    <button @click="activeFilter = 'django'" 
+                            :class="activeFilter === 'django' ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                            class="px-6 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105">
+                        Django
+                    </button>
+                    <button @click="activeFilter = 'frontend'" 
+                            :class="activeFilter === 'frontend' ? 'bg-primary-600 text-white' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                            class="px-6 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105">
+                        Frontend
+                    </button>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'django'" 
+                     x-transition class="bg-white dark:bg-gray-700 rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/img/project-img-2.jpg" alt="Health Products" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <h3 class="text-xl font-semibold mb-2">Health Products</h3>
+                                <p class="text-sm mb-4">Web Application</p>
+                                <button @click="currentProject = {
+                                    title: 'Health Products Platform',
+                                    description: 'A comprehensive health products management system with modern UI/UX design. Features include user authentication, product catalog, inventory management, and admin dashboard.',
+                                    image: 'assets/img/project-img-2.jpg',
+                                    technologies: ['Python', 'Django', 'HTML/CSS', 'JavaScript', 'SQLite'],
+                                    liveUrl: 'https://dktnigeria.org',
+                                    githubUrl: 'https://github.com/ikehi/health-products',
+                                    challenges: 'Implemented complex inventory tracking system with real-time updates and automated notifications.',
+                                    solutions: 'Used Django ORM for efficient database queries and Redis for caching frequently accessed data.'
+                                }; showProjectModal = true" class="inline-block bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Health Products Platform</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">A comprehensive health products management system with modern UI/UX design.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Python</span>
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Django</span>
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">HTML/CSS</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'python'" 
+                     x-transition class="bg-white dark:bg-gray-700 rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/img/project-img-6.jpg" alt="Loan Application" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <h3 class="text-xl font-semibold mb-2">Loan Application</h3>
+                                <p class="text-sm mb-4">Web Application</p>
+                                <button @click="currentProject = {
+                                    title: 'Loan Application System',
+                                    description: 'A modern loan application platform with secure authentication and user management. Features include loan calculator, document upload, approval workflow, and payment tracking.',
+                                    image: 'assets/img/project-img-6.jpg',
+                                    technologies: ['Python', 'Flask', 'SQL', 'JavaScript', 'Bootstrap'],
+                                    liveUrl: 'https://credisol.lsq.app/',
+                                    githubUrl: 'https://github.com/ikehi/loan-app',
+                                    challenges: 'Implemented secure document handling and complex approval workflows with role-based access control.',
+                                    solutions: 'Used Flask-Security for authentication and implemented custom middleware for document encryption.'
+                                }; showProjectModal = true" class="inline-block bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Loan Application System</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">A modern loan application platform with secure authentication and user management.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Python</span>
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Flask</span>
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">SQL</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'frontend'" 
+                     x-transition class="bg-white dark:bg-gray-700 rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/img/image.png" alt="CampusFlow AI" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <h3 class="text-xl font-semibold mb-2">CampusFlow AI</h3>
+                                <p class="text-sm mb-4">AI-Powered University Assistant</p>
+                                <a href="https://campusflow-ai.vercel.app/" target="_blank" class="inline-block bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors">View Demo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">CampusFlow AI</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">An intelligent AI assistant designed specifically for university students, helping with academic tasks, course management, and campus navigation.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">React</span>
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">AI/ML</span>
+                            <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full">Vercel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-               <div class="about__image">
-                  <svg class="about__blob" viewBox="0 0 550 592" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <mask id="maskBorder" mask-type="alpha">
-                        <path d="M263 48.1782C270.426 43.891 279.574 43.891 287 48.1782L501.157 
-                        171.822C508.583 176.109 513.157 184.032 513.157 192.606V439.894C513.157 
-                        448.468 508.583 456.391 501.157 460.678L287 584.322C279.574 588.609 
-                        270.426 588.609 263 584.322L48.843 460.678C41.4174 456.391 36.843 448.468 36.843 
-                        439.894V192.606C36.843 184.032 41.4174 176.109 48.843 171.822L263 48.1782Z" fill="black"/>
-                     </mask>
-                     <g mask="url(#maskBorder)">
-                        <rect x="37" width="476" height="630" fill="url(#pattern2)"/>
+    <!-- Project Modal -->
+    <div x-show="showProjectModal" x-transition class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 class="text-2xl font-bold" x-text="currentProject?.title"></h3>
+                    <button @click="showProjectModal = false" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                        <i class="ri-close-line text-2xl"></i>
+                    </button>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <img :src="currentProject?.image" :alt="currentProject?.title" class="w-full rounded-lg">
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold mb-2">Description</h4>
+                            <p class="text-gray-600 dark:text-gray-400" x-text="currentProject?.description"></p>
+                        </div>
                         
-                        <path d="M285 51.6423L499.157 175.286C505.345 178.859 509.157 185.461 509.157 
-                        192.606V439.894C509.157 447.039 505.345 453.641 499.157 457.214L285 
-                        580.858C278.812 584.43 271.188 584.43 265 580.858L50.843 457.214C44.655 453.641 
-                        40.843 447.039 40.843 439.894V192.606C40.843 185.461 44.655 178.859 50.843 
-                        175.286L265 51.6423C271.188 48.0697 278.812 48.0696 285 51.6423Z" stroke="black" stroke-width="10"/>
-                     </g>
-                  
-                     <rect x="37" width="476" height="300" fill="url(#pattern3)"/>
-                  
-                     <defs>
-                        <pattern id="pattern2" patternContentUnits="objectBoundingBox" width="1" height="1">
-                           <use href="#imageBorder" transform="matrix(0.00143057 0 0 0.00108108 0.0404062 0)"/>
-                        </pattern>
-                  
-                        <pattern id="pattern3" patternContentUnits="objectBoundingBox" width="1" height="1">
-                           <use href="#imageBorder" transform="matrix(0.00143057 0 0 0.00226984 0.0404062 0)"/>
-                        </pattern>
-                  
-                        <!-- Insert your profile (recommended size: 640 x 940) -->
-                        <image class="about__img" id="imageBorder" width="640" height="940" href="assets/img/ll.png"/>
-                     </defs>
-                  </svg>
-               </div>
-
+                        <div>
+                            <h4 class="font-semibold mb-2">Technologies Used</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <template x-for="tech in currentProject?.technologies" :key="tech">
+                                    <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-sm rounded-full" x-text="tech"></span>
+                                </template>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">Challenges</h4>
+                            <p class="text-gray-600 dark:text-gray-400" x-text="currentProject?.challenges"></p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold mb-2">Solutions</h4>
+                            <p class="text-gray-600 dark:text-gray-400" x-text="currentProject?.solutions"></p>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <a :href="currentProject?.liveUrl" target="_blank" class="btn-primary">
+                                <i class="ri-external-link-line mr-2"></i>Live Demo
+                            </a>
+                            <a :href="currentProject?.githubUrl" target="_blank" class="btn-secondary">
+                                <i class="ri-github-fill mr-2"></i>View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-         </section>
+        </div>
+    </div>
 
-         <!--==================== SKILLS ====================-->
-         <section class="skills section">
-            <div class="skills__container container grid">
-               <div class="skills__data">
-                  <h3 class="section__subtitle">
-                     Favorite <span>Skills</span>
-                  </h3> 
-
-                  <h2 class="section__title">
-                     My skills
-                  </h2>
-                  <p class="skills__description">
-                     Please find below a comprehensive list of skills 
-                     and competencies that I possess, which can be 
-                     leveraged to create excellent project outcomes for you.
-                  </p>
-
-                  <a href="#projects" class="button">See projects</a>
-               </div>
-
-               <div class="skills__content">
-                  <ol class="skills__group">
-                     <li class="skills__items">Python</li>
-                     <li class="skills__items">Django</li>
-                     <li class="skills__items"> HTML</li>
-                     <li class="skills__items">CSS</li>
-                  </ol>
-
-                  <ol class="skills__group" start="5">
-                     <li class="skills__items">JavaScript</li>
-                     <li class="skills__items">SQL</li>
-                     <li class="skills__items">Git & Github</li>
-                     <li class="skills__items">Flask</li>
-                  </ol>
-               </div>
-            </div>
-         </section>
-
-         <!--==================== SERVICES ====================-->
-         <section class="services section" id="services">
-            <h3 class="section__subtitle">
-               My <span>Services
-            </h3>
-            <h2 class="section__title">
-               What I Do
-            </h2>
-
-            <div class="services__container container grid">
-               <article class="services__card">
-                  <i class="ri-layout-3-line services__icon"></i>
-                   
-                  <h2 class="services__title">Web developer</h2>
-
-                  <p class="services__description">
-                     Development of custom web pages 
-                     Using current technologies and 
-                     libraries of the labor field.
-                  </p>
-               </article><article class="services__card">
-                  <i class="ri-pantone-line services__icon"></i>
-
-                  <h2 class="services__title">UI/UX Designer</h2>
-
-                  <p class="services__description">
-                     I offer design of web interfaces and 
-                     mobile applications, design made in 
-                     figma, adobe xd and sketch.
-                  </p>
-
-               </article><article class="services__card">
-                  <i class="ri-pen-nib-line services__icon"></i>
-
-                  <h2 class="services__title">Python developer</h2>
-
-                  <p class="services__description">
-                     Custom web page development using current technologies 
-                     and libraries in the field,with expertise in Python 
-                     frameworks like Django and Flask.
-                  </p>
-
-               </article>
-            </div>
-         </section>
-
-         <!--==================== PROJECTS ====================-->
-         <section class="projects section" id="projects">
-            <h3 class="h3 section__subtitle">
-               My <span>jobs</span>
-            </h3>
-            <h2 class="section__title">
-               Recent projects
-            </h2>
-
-            <div class="projects__container container grid">
-               
-               <article class="projects__card">
-                  <img src="assets/img/project-img-2.jpg" alt="projects image" class="projects img">
-
-                  <div class="projects__modal">
-                     <span class="projects__subtitle">Web</span>
-
-                     <h2 class="projects__title">Health products</h2>
-
-                     <a href="https://dktnigeria.org" class="projects__button">
-                        View demo <i class="ri-external-link-line"></i>
-                     </a>
-                  </div>
-               </article>
-               
-               <article class="projects__card">
-                  <img src="assets/img/project-img-5.jpg" alt="projects image" class="projects__img">
-
-                  <div class="projects__modal">
-                     <span class="projects__subtitle">Web</span>
-
-                     <h2 class="projects__title">Coming Soon</h2>
-
-                     <a href="#" class="projects__button">
-                        View demo <i class="ri-external-link-line"></i>
-                     </a>
-                  </div>
-               </article>
-
-               <article class="projects__card">
-                  <img src="assets/img/project-img-6.jpg" alt="projects image" class="projects__img">
-
-                  <div class="projects__modal">
-                     <span class="projects__subtitle">Web</span>
-
-                     <h2 class="projects__title">Loan Application</h2>
-
-                     <a href="https://credisol.lsq.app/" class="projects__button">
-                        View demo <i class="ri-external-link-line"></i>
-                     </a>
-                  </div>
-               </article>
-            </div>
-         </section>
-
-         <!--==================== CONTACT ====================-->
-         <section class="contact section" id="contact">
-            <h3 class="section__subtitle">
-               Get in <span>Touch</span>
-            </h3>
-
-            <h2 class="section__title">
-               Contact Me
-            </h2>
-
-            <div class="contact__container container grid">
-               <form action="" class="contact__form" id="contact-form">
-                  <div class="contact__group">
-                     <input type="text" name="user_name" required placeholder="Enter your name" class="contact__input">
-                     <input type="email" name="user_email" required placeholder="Enter your email" class="contact__input">
-                  </div>
-
-                  <textarea name="user_project" required placeholder="Enter your message" class="contact__input"></textarea>
-
-                  <p class="contact__message" id="contact-message"></p>
-                  <button type="submit" class="button contact__button">
-                   Send Message  
-                  </button>
-               </form>   
-            </div>
-         </section>
-      </main>
-
-      <!--==================== FOOTER ====================-->
-      <footer class="footer">
-         <div class="footer__container container grid">
-            <div>
-               <h1 class="footer__title">
-                  Ikehi <span>Matthias</span>
-               </h1>
- 
-               <h2 class="footer__education">
-                  Front-end Developer and Python Developer
-               </h2>
-            </div>
-            <div class="footer__social">
-                  <a href="https://www.instagram.com/ikehi_ma/" target ="_blank" class="footer__social-link">
-                     <i class="ri-instagram-line"></i>
-               
-                  </a> 
-
-                  <a href="https://github.com/ikehi" target ="_blank" class="footer__social-link">
-                     <i class="ri-github-fill"></i>
-                  </a> 
-                  
-                  <a href="https://www.linkedin.com/in/matthias-ikehi-3249b8261/" target ="_blank" class="home__social-link">
-                     <i class="ri-linkedin-box-fill"></i>
-                  </a> 
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold mb-4">What Clients Say</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Testimonials from satisfied clients and colleagues
+                </p>
             </div>
             
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center text-primary-600 dark:text-primary-400 font-semibold">
+                            JD
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">John Doe</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">CEO, TechStart</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 italic">
+                        "Matthias delivered an exceptional e-commerce platform that exceeded our expectations. His attention to detail and technical expertise are outstanding."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center text-primary-600 dark:text-primary-400 font-semibold">
+                            SJ
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">Sarah Johnson</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Product Manager</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 italic">
+                        "Working with Matthias was a pleasure. He's not only technically skilled but also great at communication and understanding client needs."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center text-primary-600 dark:text-primary-400 font-semibold">
+                            MW
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">Mike Wilson</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Startup Founder</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 italic">
+                        "Matthias helped us build a robust loan management system. His Django expertise and problem-solving skills are top-notch."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold mb-4">Frequently Asked Questions</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Common questions about my services and expertise
+                </p>
+            </div>
             
-         </div>
-         
-      </footer>
+            <div class="max-w-3xl mx-auto space-y-6">
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-xl shadow-lg">
+                    <button @click="open = !open" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-semibold text-gray-900 dark:text-gray-100">What technologies do you specialize in?</span>
+                        <i class="ri-arrow-down-s-line text-xl transition-transform duration-200" :class="{ 'rotate-180': open }"></i>
+                    </button>
+                    <div x-show="open" x-transition class="px-6 pb-4">
+                        <p class="text-gray-600 dark:text-gray-400">
+                            I specialize in Python, Django, Flask, HTML/CSS, JavaScript, and modern frontend frameworks. I also have experience with databases, Git, and various development tools.
+                        </p>
+                    </div>
+                </div>
+                
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-xl shadow-lg">
+                    <button @click="open = !open" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-semibold text-gray-900 dark:text-gray-100">How long does it take to complete a project?</span>
+                        <i class="ri-arrow-down-s-line text-xl transition-transform duration-200" :class="{ 'rotate-180': open }"></i>
+                    </button>
+                    <div x-show="open" x-transition class="px-6 pb-4">
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Project timelines vary depending on complexity. A simple website might take 2-4 weeks, while complex applications can take 2-3 months. I always provide detailed timelines during project planning.
+                        </p>
+                    </div>
+                </div>
+                
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-xl shadow-lg">
+                    <button @click="open = !open" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-semibold text-gray-900 dark:text-gray-100">Do you provide ongoing support after project completion?</span>
+                        <i class="ri-arrow-down-s-line text-xl transition-transform duration-200" :class="{ 'rotate-180': open }"></i>
+                    </button>
+                    <div x-show="open" x-transition class="px-6 pb-4">
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Yes, I offer ongoing support and maintenance packages. This includes bug fixes, updates, security patches, and feature additions as needed.
+                        </p>
+                    </div>
+                </div>
+                
+                <div x-data="{ open: false }" class="bg-white dark:bg-gray-700 rounded-xl shadow-lg">
+                    <button @click="open = !open" class="w-full px-6 py-4 text-left flex justify-between items-center">
+                        <span class="font-semibold text-gray-900 dark:text-gray-100">What is your development process?</span>
+                        <i class="ri-arrow-down-s-line text-xl transition-transform duration-200" :class="{ 'rotate-180': open }"></i>
+                    </button>
+                    <div x-show="open" x-transition class="px-6 pb-4">
+                        <p class="text-gray-600 dark:text-gray-400">
+                            My process includes: 1) Requirements gathering and planning, 2) Design and prototyping, 3) Development with regular updates, 4) Testing and quality assurance, 5) Deployment and launch, 6) Post-launch support.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <!--========== SCROLL UP ==========-->
+    <!-- Contact Section with Real EmailJS -->
+    <section id="contact" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold mb-4">Get In Touch</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Ready to start a project? Let's discuss how I can help bring your ideas to life.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <form x-data="{ 
+                        formData: { name: '', email: '', message: '' }, 
+                        isSubmitting: false, 
+                        submitMessage: '',
+                        submitForm() {
+                            this.isSubmitting = true;
+                            this.submitMessage = '';
+                            
+                                            // Prepare template parameters
+                const templateParams = {
+                    user_name: this.formData.name,
+                    user_email: this.formData.email,
+                    user_project: this.formData.message,
+                    to_name: 'Matthias'
+                };
+                            
+                            // Send email using EmailJS
+                            emailjs.send('service_y3ycqke', 'template_23ndcwl', templateParams)
+                                .then((response) => {
+                                    this.isSubmitting = false;
+                                    this.submitMessage = 'Message sent successfully! ✅ I\'ll get back to you soon.';
+                                    this.formData = { name: '', email: '', message: '' };
+                                    
+                                    // Clear success message after 5 seconds
+                                    setTimeout(() => {
+                                        this.submitMessage = '';
+                                    }, 5000);
+                                })
+                                .catch((error) => {
+                                    this.isSubmitting = false;
+                                    this.submitMessage = 'Message not sent. Please try again or email me directly. ❌';
+                                    
+                                    // Clear error message after 5 seconds
+                                    setTimeout(() => {
+                                        this.submitMessage = '';
+                                    }, 5000);
+                                });
+                        }
+                    }" @submit.prevent="submitForm()" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
+                            <input type="text" id="name" x-model="formData.name" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                            <input type="email" id="email" x-model="formData.email" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message</label>
+                            <textarea id="message" x-model="formData.message" rows="5" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"></textarea>
+                        </div>
+                        
+                        <div x-show="submitMessage" x-text="submitMessage" class="p-3 rounded-lg" :class="submitMessage.includes('success') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"></div>
+                        
+                        <button type="submit" :disabled="isSubmitting" class="w-full btn-primary">
+                            <span x-show="!isSubmitting">Send Message</span>
+                            <span x-show="isSubmitting">
+                                <i class="ri-loader-4-line animate-spin mr-2"></i>Sending...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6">Let's Connect</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-8">
+                            I'm always interested in new opportunities and exciting projects. 
+                            Whether you have a question or just want to say hi, feel free to reach out!
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
+                                <i class="ri-mail-line text-primary-600 dark:text-primary-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Email</h4>
+                                <p class="text-gray-600 dark:text-gray-400">matthias@example.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
+                                <i class="ri-map-pin-line text-primary-600 dark:text-primary-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Location</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Nigeria</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
+                                <i class="ri-time-line text-primary-600 dark:text-primary-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Availability</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Open to new projects</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-4">Follow Me</h4>
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/ikehi" target="_blank" class="social-link-large">
+                                <i class="ri-github-fill"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/matthias-ikehi-3249b8261/" target="_blank" class="social-link-large">
+                                <i class="ri-linkedin-box-fill"></i>
+                            </a>
+                            <a href="https://www.instagram.com/ikehi_ma/" target="_blank" class="social-link-large">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <a href="#" class="scrollup" id="scroll-up">
-         <i class="ri-arrow-up-line"></i>
-      </a>
+    <!-- Footer -->
+    <footer class="bg-gray-900 dark:bg-black text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h3 class="text-2xl font-display font-bold mb-4">
+                    Matthias <span class="text-primary-400">Ikehi</span>
+                </h3>
+                <p class="text-gray-400 mb-6">Full Stack Developer & Python Developer</p>
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="https://github.com/ikehi" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="ri-github-fill text-xl"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/matthias-ikehi-3249b8261/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="ri-linkedin-box-fill text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/ikehi_ma/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="ri-instagram-line text-xl"></i>
+                    </a>
+                </div>
+                <p class="text-gray-400 text-sm">
+                    © 2024 Matthias Ikehi. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
 
-      <!--=============== SCROLLREVEAL ===============-->
-      <script src="assets/js/scrollreveal.min.js"></script>
+    <!-- Scroll to Top Button -->
+    <button x-data="{ show: false }" @scroll.window="show = window.pageYOffset > 300" @click="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            x-show="show" x-transition class="fixed bottom-8 right-8 w-12 h-12 bg-primary-600 hover:bg-primary-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50">
+        <i class="ri-arrow-up-line text-xl"></i>
+    </button>
 
-      <!--=============== EMAIL JS ===============-->
-      <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>      
+    <style>
+        .nav-link {
+            @apply text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200;
+        }
+        
+        .nav-link-mobile {
+            @apply text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200 block py-2;
+        }
+        
+        .social-link {
+            @apply w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200;
+        }
+        
+        .social-link-large {
+            @apply w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 text-xl;
+        }
+        
+        .btn-primary {
+            @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl;
+        }
+        
+        .btn-secondary {
+            @apply bg-transparent border-2 border-primary-600 text-primary-600 dark:text-primary-400 hover:bg-primary-600 hover:text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105;
+        }
+        
+        .skill-item {
+            @apply flex items-center justify-between mb-2;
+        }
+        
+        .skill-bar {
+            @apply w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden;
+        }
+        
+        .skill-progress {
+            @apply h-full bg-primary-600 dark:bg-primary-400 rounded-full transition-all duration-1000;
+        }
+        
+        .typing-cursor {
+            @apply text-primary-600 dark:text-primary-400;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .tech-item {
+            @apply flex flex-col items-center justify-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-200 transform hover:scale-105;
+        }
+    </style>
 
-      <!--=============== MAIN JS ===============-->
-      <script src="assets/js/main.js"></script>
-   </body>
-</html>
+    <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("xY_PVdG1vJ8t3kGOY");
+        })();
+        
+        // Typing animation
+        const typingTexts = [
+            "Full Stack Developer",
+            "Python Developer", 
+            "Django Expert",
+            "UI/UX Designer"
+        ];
+        
+        let currentTextIndex = 0;
+        let currentCharIndex = 0;
+        let isDeleting = false;
+        
+        function typeText() {
+            const currentText = typingTexts[currentTextIndex];
+            
+            if (isDeleting) {
+                this.typingText = currentText.substring(0, currentCharIndex - 1);
+                currentCharIndex--;
+            } else {
+                this.typingText = currentText.substring(0, currentCharIndex + 1);
+                currentCharIndex++;
+            }
+            
+            let typeSpeed = 100;
+            
+            if (isDeleting) {
+                typeSpeed /= 2;
+            }
+            
+            if (!isDeleting && currentCharIndex === currentText.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && currentCharIndex === 0) {
+                isDeleting = false;
+                currentTextIndex = (currentTextIndex + 1) % typingTexts.length;
+                typeSpeed = 500; // Pause before starting next word
+            }
+            
+            setTimeout(() => typeText.call(this), typeSpeed);
+        }
+        
+
+        
+        // Start typing animation when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => typeText.call(document.querySelector('[x-data]').__x.$data), 1000);
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Active navigation link highlighting
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('text-primary-600', 'dark:text-primary-400');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('text-primary-600', 'dark:text-primary-400');
+                }
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.skill-progress, .tech-item');
+            animateElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html> 
