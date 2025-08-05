@@ -259,7 +259,7 @@ The portfolio is fully responsive with breakpoints for:
 ## 📞 **Support & Customization**
 
 ### **Need Help?**
-- **Email**: matthias@example.com
+- **Email**: matthiasikehi@gmail.com
 - **GitHub**: [@ikehi](https://github.com/ikehi)
 - **LinkedIn**: [Matthias Ikehi](https://www.linkedin.com/in/matthias-ikehi-3249b8261/)
 
