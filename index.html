@@ -625,7 +625,23 @@
                             <div class="text-center text-white">
                                 <h3 class="text-xl font-semibold mb-2">CampusFlow AI</h3>
                                 <p class="text-sm mb-4">AI-Powered University Assistant</p>
-                                <a href="https://campusflow-ai.vercel.app/" target="_blank" class="inline-block bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors">View Demo</a>
+                                <div class="space-y-2">
+                                    <button @click="currentProject = {
+                                        title: 'CampusFlow AI',
+                                        description: 'An intelligent AI assistant designed specifically for university students, helping with academic tasks, course management, and campus navigation. Features include natural language processing, course scheduling, assignment tracking, and campus resource locator.',
+                                        image: 'assets/img/image.png',
+                                        technologies: ['React', 'AI/ML', 'Vercel', 'JavaScript', 'CSS'],
+                                        liveUrl: 'https://campusflow-ai.vercel.app/',
+                                        githubUrl: 'https://github.com/ikehi/campusflow-ai',
+                                        challenges: 'Implementing natural language processing for student queries and creating an intuitive user interface for complex academic workflows.',
+                                        solutions: 'Used React hooks for state management and integrated AI APIs for intelligent responses to student questions.'
+                                    }; showProjectModal = true" class="inline-block bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors">
+                                        View Details
+                                    </button>
+                                    <a href="https://campusflow-ai.vercel.app/" target="_blank" class="inline-block bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors">
+                                        View Demo
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -937,7 +953,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold">Email</h4>
-                                <p class="text-gray-600 dark:text-gray-400">matthias@example.com</p>
+                                <p class="text-gray-600 dark:text-gray-400">matthiasikehi@gmail.com</p>
                             </div>
                         </div>
                         
